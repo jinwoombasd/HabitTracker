@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api', // Or whatever your backend URL is
+  baseURL: 'http://localhost:5000', // Your Express server port
 });
 
 export default axiosInstance;

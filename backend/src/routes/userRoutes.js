@@ -12,7 +12,9 @@ router.post("/register", async (req, res) => {
   try {
     // Input validation
     if (!username || !email || !password) {
-      return res.status(400).json({ message: "Please provide all required fields" });
+      return res
+        .status(400)
+        .json({ message: "Please provide all required fields" });
     }
 
     // Check if user already exists
@@ -30,7 +32,7 @@ router.post("/register", async (req, res) => {
 
     // Create JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",  // Consider longer expiration times or refresh tokens
+      expiresIn: "1h", // Consider longer expiration times or refresh tokens
     });
 
     res.status(201).json({ token });
@@ -47,7 +49,9 @@ router.post("/login", async (req, res) => {
   try {
     // Input validation
     if (!email || !password) {
-      return res.status(400).json({ message: "Please provide both email and password" });
+      return res
+        .status(400)
+        .json({ message: "Please provide both email and password" });
     }
 
     // Find the user by email
@@ -64,7 +68,7 @@ router.post("/login", async (req, res) => {
 
     // Create JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",  // Consider longer expiration times or refresh tokens
+      expiresIn: "1h", // Consider longer expiration times or refresh tokens
     });
 
     res.status(200).json({ token });

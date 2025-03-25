@@ -9,7 +9,7 @@ router.get("/", authMiddleware, async (req, res, next) => {
   try {
     await getHabits(req, res);
   } catch (err) {
-    next(err);  // In case of any unhandled error, pass it to the error handler
+    next(err); // In case of any unhandled error, pass it to the error handler
   }
 });
 
@@ -18,7 +18,7 @@ router.post("/", authMiddleware, async (req, res, next) => {
   try {
     await createHabit(req, res);
   } catch (err) {
-    next(err);  // Handle errors if the habit creation fails
+    next(err); // Handle errors if the habit creation fails
   }
 });
 

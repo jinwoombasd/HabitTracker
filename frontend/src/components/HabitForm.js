@@ -1,5 +1,5 @@
-import { useState } from "react";
-import api from '../utils/api';
+import React, { useState } from "react";
+import api from "../utils/api"; // axiosInstance
 
 export default function HabitForm({ onHabitAdded }) {
   const [name, setName] = useState("");
@@ -7,10 +7,14 @@ export default function HabitForm({ onHabitAdded }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await api.post("/habits", { name, description });
-    onHabitAdded();
-    setName("");
-    setDescription("");
+    try {
+      await api.post("/habits", { name, description });
+      if (onHabitAdded) onHabitAdded();
+      setName("");
+      setDescription("");
+    } catch (error) {
+      console.error("Failed to add habit:", error);
+    }
   };
 
   return (

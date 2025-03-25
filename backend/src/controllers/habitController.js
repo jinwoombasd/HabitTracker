@@ -1,5 +1,5 @@
 const Habit = require("../models/Habit");
-const db = require("../config/env");  // MySQL DB connection
+const db = require("../config/secrets"); // MySQL DB connection
 
 // Validate input data
 const validateHabitInput = (name, description) => {
@@ -18,12 +18,17 @@ exports.getHabits = async (req, res) => {
       habits = await Habit.find({ user: req.user.id });
     } else {
       // MySQL logic
-      const [results] = await db.query("SELECT * FROM habits WHERE user_id = ?", [req.user.id]);
+      const [results] = await db.query(
+        "SELECT * FROM habits WHERE user_id = ?",
+        [req.user.id]
+      );
       habits = results;
     }
 
     if (!habits || habits.length === 0) {
-      return res.status(404).json({ success: false, message: "No habits found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "No habits found" });
     }
 
     res.json({ success: true, data: habits });
@@ -51,9 +56,16 @@ exports.createHabit = async (req, res) => {
       await newHabit.save();
     } else {
       // MySQL logic
-      const [results] = await db.query("INSERT INTO habits (name, description, user_id) VALUES (?, ?, ?)", 
-        [name, description, req.user.id]);
-      newHabit = { id: results.insertId, name, description, user_id: req.user.id };
+      const [results] = await db.query(
+        "INSERT INTO habits (name, description, user_id) VALUES (?, ?, ?)",
+        [name, description, req.user.id]
+      );
+      newHabit = {
+        id: results.insertId,
+        name,
+        description,
+        user_id: req.user.id,
+      };
     }
 
     res.status(201).json({
